@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Pic Calculator</string>
+    <string name="btn_Timer">Timer</string>
+    <string name="TitleTimerActivity">Timer</string>
+    <string name="TitleClockActivity">Clock</string>
+    <string name="TitleTimer0Activity">Timer0</string>
+    <string name="TitleTimer1Activity">Timer1</string>
+    <string name="TitleTimer2Activity">Timer2</string>
+    <string name="btn_Clock">Clock</string>
+    <string name="btn_Timer0">Timer 0</string>
+    <string name="btn_Timer1">Timer 1</string>
+    <string name="btn_Timer2">Timer 2</string>
+    <string name="text_currentclock">Current clock : </string>
+    <string name="text_currentclockvalue">4</string>
+    <string name="text_currentclockvalueMHZ">MHz</string>
+    <string name="text_currentclockvalueHZ">Hz</string>
+    <string name="text_frequencyselect">Frequency Select</string>
+    <string name="text_internalclock">Internal clock</string>
+    <string name="btn_AcceptNewValue">Accept New Value</string>
+    <string name="chkbox_EnablePrescaller">Enable Prescaller</string>
+    <string name="chkbox_EnablePrescallerHint">Disabled equal 1:1</string>
+    <string name="text_reloadvalue">Reload Value:</string>
+    <string name="text_period">Timer Period:</string>
+    <string-array name="frequency">
+        <item>MHz</item>
+        <item>KHz</item>
+        <item>Hz</item>
+    </string-array>
+    <string-array name="prescaller8bits">
+        <item>1:2</item>
+        <item>1:4</item>
+        <item>1:8</item>
+        <item>1:16</item>
+        <item>1:32</item>
+        <item>1:64</item>
+        <item>1:128</item>
+        <item>1:256</item>
+    </string-array>
+</resources>

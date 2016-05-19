@@ -66,7 +66,7 @@ public class Timer0Activity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 if(s.length()!=0){
                     if(Helper.validateText(s.toString())){
-                        Toast.makeText(getApplicationContext(),String.format("%d",Helper.result),Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(),String.format("%d",Helper.result),Toast.LENGTH_SHORT).show();
                     }
                 }else{
                    //Handle Null Value
@@ -84,12 +84,12 @@ public class Timer0Activity extends AppCompatActivity {
         //Helper h = new Helper();
         if(Helper.validateText(str)){
             maxReload = (int) Helper.result;
-            Toast.makeText(getApplicationContext(),String.format("%d",maxReload),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(),String.format("%d",maxReload),Toast.LENGTH_SHORT).show();
         }
         SharedPreferences sp;
         sp = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         int myClock = sp.getInt("CurrentClockHz",4000000); //4MHz as default value
-        Toast.makeText(getApplicationContext(),String.format("%d",myClock),Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getApplicationContext(),String.format("%d",myClock),Toast.LENGTH_SHORT).show();
 
     }
 }

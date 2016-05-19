@@ -5,6 +5,8 @@ import java.io.IOException;
 
 /**
  * Created by dlie on 5/13/2016.
+ * Helper for all activities
+ * Test Commit to github
  */
 public class  Helper {
     public static Object result=null;

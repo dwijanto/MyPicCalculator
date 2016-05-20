@@ -14,6 +14,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 public class Timer0Activity extends AppCompatActivity {
 
     @Override
@@ -80,15 +82,28 @@ public class Timer0Activity extends AppCompatActivity {
         float minPeriod=0,maxPeriod=0;
 
         EditText editText=(EditText) findViewById(R.id.editText2);
+        EditText editText3=(EditText) findViewById(R.id.editText3);
+        TextView lowText = (TextView) findViewById(R.id.textView15);
+        TextView highText = (TextView) findViewById(R.id.textView18);
         String str = editText.getText().toString();
+
         //Helper h = new Helper();
         if(Helper.validateText(str)){
             maxReload = (int) Helper.result;
+            minReload = 255 - maxReload;
             //Toast.makeText(getApplicationContext(),String.format("%d",maxReload),Toast.LENGTH_SHORT).show();
+
         }
         SharedPreferences sp;
         sp = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         int myClock = sp.getInt("CurrentClockHz",4000000); //4MHz as default value
+
+        lowText.setText(Helper.getTout(minReload,myClock,1,256));
+        //highText.setText(Helper.getTout(minReload,myClock,1,256));
+        String MaxValue = Helper.getTout(maxReload,myClock,1,256);
+        highText.setText(MaxValue);
+        editText3.setText(MaxValue);
+
         //Toast.makeText(getApplicationContext(),String.format("%d",myClock),Toast.LENGTH_SHORT).show();
 
     }

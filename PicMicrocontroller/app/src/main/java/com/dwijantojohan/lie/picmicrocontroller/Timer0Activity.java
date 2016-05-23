@@ -104,12 +104,11 @@ public class Timer0Activity extends AppCompatActivity {
                             //Toast.makeText(getApplicationContext(),String.format("0x%s",HexValue),Toast.LENGTH_SHORT).show();
                             editText2.setText(String.format("0x%s",HexValue.toUpperCase()));
                         }else{
-                            editText2.setText("0xFF");
-                            calculateTimer0();
+                            setDefaultValue();
                             //Toast.makeText(getApplicationContext(),"Not a valid value.",Toast.LENGTH_SHORT).show();
                         }
-
-
+                    }else{
+                       setDefaultValue();
                     }
 
 
@@ -119,7 +118,10 @@ public class Timer0Activity extends AppCompatActivity {
 
 
     }
-
+    private void setDefaultValue(){
+        editText2.setText("0xFF");
+        calculateTimer0();
+    }
     private void calculateTimer0(){
         int minReload =0,maxReload=255,curReload =0;
 

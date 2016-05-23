@@ -130,8 +130,6 @@
                 android:layout_height="wrap_content"
                 android:inputType="textCapCharacters"
                 android:digits="0123456789ABCDEFabcdef"
-                android:maxLength="2"
-
                 android:id="@+id/editText3"
                 android:layout_column="3" />
 

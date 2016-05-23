@@ -118,6 +118,12 @@ public class  Helper {
         return timeConversion(tout);
     }
 
+    public static String getPreload(double period,int clock,int prescaller,int resolution){
+        BigDecimal fout = BigDecimal.valueOf(1/period);
+        BigDecimal preload = BigDecimal.valueOf(clock/(4*prescaller*(1/period)));
+        return "";
+    }
+
     /*
      value float in second
      */
@@ -153,7 +159,7 @@ public class  Helper {
             }
 
         };
-        return String.format("%.0000f%s ", tmp, timeUnit);
+        return String.format("%.0000f %s ", tmp, timeUnit);
     }
 }
 

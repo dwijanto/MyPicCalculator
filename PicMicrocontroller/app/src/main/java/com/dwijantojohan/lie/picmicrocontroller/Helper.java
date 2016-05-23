@@ -3,6 +3,7 @@ package com.dwijantojohan.lie.picmicrocontroller;
 import java.io.IOError;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * Created by dlie on 5/13/2016.
@@ -11,11 +12,12 @@ import java.math.BigDecimal;
  */
 public class  Helper {
     public static Object result=null;
+    public static double ToutResult;
     public static boolean validateText(String str){
         boolean myret = false;
 
         try {
-            int length = str.length();
+            int length = str.trim().length();
            if (str.trim().toLowerCase().contains("0x")){
                 //Hex Value
                 if (tryParseIntHex(str.trim().substring(2))){
@@ -35,17 +37,44 @@ public class  Helper {
                     result = Integer.parseInt(str.trim().substring(0,length-3));
                     myret=true;
                 }
-            }else if(str.trim().toLowerCase().contains("hz")){
-                //Hz value
-                if (tryParseInt(str.trim().substring(0,length-2))){
-                    result = Integer.parseInt(str.trim().substring(0,length-3));
+            }else if(str.trim().toLowerCase().contains("hz")) {
+               //Hz value
+               if (tryParseInt(str.trim().substring(0, length - 2))) {
+                   result = Integer.parseInt(str.trim().substring(0, length - 2));
+                   myret = true;
+               }
+            }else if(str.trim().toLowerCase().contains("ns")) {
+               if (tryParseDouble(str.trim().substring(0, length - 2))) {
+                   result = Double.parseDouble(str.trim().substring(0, length - 2))/1000000000;
+                   myret=true;
+               }
+            }else if(str.trim().toLowerCase().contains("us")) {
+               if (tryParseDouble(str.trim().substring(0, length - 2))) {
+                   result =Double.parseDouble(str.trim().substring(0, length - 2))/1000000;
+                   myret=true;
+               }
+           }else if(str.trim().toLowerCase().contains("ms")) {
+               if (tryParseDouble(str.trim().substring(0, length - 2))) {
+                   result = Double.parseDouble(str.trim().substring(0, length - 2))/1000;
+                   myret=true;
+               }
+           }else if(str.trim().toLowerCase().contains("sec")) {
+               if (tryParseDouble(str.trim().substring(0, length - 3))) {
+                   result = Double.parseDouble(str.trim().substring(0, length - 3));
+                   myret=true;
+               }
+           }else if(str.trim().toLowerCase().contains("min")) {
+               if (tryParseDouble(str.trim().substring(0, length - 3))) {
+                   result = Double.parseDouble(str.trim().substring(0, length - 3))*60;
+                   myret=true;
+               }
+           }else if(str.trim().contains(".")){
+                //Double value
+                if (tryParseDouble(str.trim())){
+                    result = Double.parseDouble(str.trim());
                     myret=true;
                 }
-            }else if(str.trim().contains(".")){
-                //float value
 
-                result = Float.parseFloat(str.trim());
-                myret=true;
             }else {
                 //int value
                 if(tryParseInt(str.trim())){
@@ -55,7 +84,7 @@ public class  Helper {
 
             }
         }catch (IOError e){
-
+            myret = false;
         }
 
 
@@ -82,14 +111,15 @@ public class  Helper {
         }
     }
 
-    public static boolean tryParseFloat(String value){
+    public static boolean tryParseDouble(String value){
         try{
-            Float.parseFloat(value);
+            Double.parseDouble(value);
             return true;
         }catch (NumberFormatException e){
             return false;
         }
     }
+
     public static int getValueHz(int value,String str){
         switch (str.toLowerCase()){
             case "mhz":
@@ -114,22 +144,23 @@ public class  Helper {
         double f = clock/(4*prescaller*delay);
         BigDecimal fout = BigDecimal.valueOf(f) ; //in HZ
         BigDecimal tout = BigDecimal.valueOf(1/f); //in sec
+        ToutResult = tout.doubleValue();
 
         return timeConversion(tout);
     }
 
-    public static String getPreload(double period,int clock,int prescaller,int resolution){
-        BigDecimal fout = BigDecimal.valueOf(1/period);
-        BigDecimal preload = BigDecimal.valueOf(clock/(4*prescaller*(1/period)));
-        return "";
+    public static int getPreload(double period,int clock,int prescaller,int resolution){
+        int preload;
+        preload = (int)(clock /(4*prescaller*(1/period)));
+        return resolution - preload;
     }
 
     /*
-     value float in second
+     value BigDecimal in second
      */
 
     public static String timeConversion(BigDecimal value) {
-        String result = "";
+       // String result = "";
         String timeUnit = "sec";
         BigDecimal tmp = value;
         int cp = tmp.compareTo(BigDecimal.ONE);
@@ -154,7 +185,7 @@ public class  Helper {
                 if (cp >= 0) {
                     timeUnit = "us";
                 } else {
-                    value = tmp.multiply(BigDecimal.ONE.valueOf(1000000000));
+                    value = tmp.multiply(BigDecimal.valueOf(1000000000));
                     cp = value.compareTo(BigDecimal.ONE);
                     if (cp >= 0) {
                         timeUnit = "ns";

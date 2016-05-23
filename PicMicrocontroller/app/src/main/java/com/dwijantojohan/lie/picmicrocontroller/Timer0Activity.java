@@ -22,6 +22,8 @@ public class Timer0Activity extends AppCompatActivity {
     private EditText editText3;
     private TextView lowText;
     private TextView highText;
+    private Double MinTime;
+    private Double MaxTime;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +96,7 @@ public class Timer0Activity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
+                    /*
                     String s = editText2.getText().toString();
 
                     if(Helper.validateText(s)){
@@ -109,8 +112,18 @@ public class Timer0Activity extends AppCompatActivity {
                         }
                     }else{
                        setDefaultValue();
-                    }
+                    }*/
+                    calculateTimer0();
 
+                }
+            }
+        });
+
+        editText3.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus){
+                    calculatePreload();
 
                 }
             }
@@ -118,11 +131,38 @@ public class Timer0Activity extends AppCompatActivity {
 
 
     }
-    private void setDefaultValue(){
-        editText2.setText("0xFF");
+    private void setDefaultValue(String message){
+        Toast.makeText(getApplicationContext(),String.format("%s",message),Toast.LENGTH_LONG).show();
+        editText2.setText("0x00");
         calculateTimer0();
+
     }
+
+    private void calculatePreload(){
+        String message = "Invalid value. Provide value within the range. Use s,ms,us or ns.Reset to default value.";
+        String s=editText3.getText().toString();
+        int preload;
+        SharedPreferences sp;
+        sp = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+        int myClock = sp.getInt("CurrentClockHz",4000000); //4MHz as default value
+        if(Helper.validateText((s))){
+            if(MinTime <= (Double) Helper.result && MaxTime >= (Double) Helper.result){
+                double p = (Double) Helper.result;
+                preload = Helper.getPreload(p,myClock,1,256);
+                String HexValue = String.format("%02x",preload);
+                editText2.setText(String.format("0x%s",HexValue.toUpperCase()));
+                calculateTimer0();
+            }else{
+                setDefaultValue(message);
+            }
+        }else{
+            setDefaultValue(message);
+        }
+
+    }
+
     private void calculateTimer0(){
+        String message = "Invalid value. Provide value within the range.Use Integer or Hex value. Reset to default value.";
         int minReload =0,maxReload=255,curReload =0;
 
         String str = editText2.getText().toString();
@@ -131,14 +171,19 @@ public class Timer0Activity extends AppCompatActivity {
             curReload = (int) Helper.result;
             //Toast.makeText(getApplicationContext(),String.format("%d",maxReload),Toast.LENGTH_SHORT).show();
 
-        }
-        SharedPreferences sp;
-        sp = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        int myClock = sp.getInt("CurrentClockHz",4000000); //4MHz as default value
+            SharedPreferences sp;
+            sp = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
+            int myClock = sp.getInt("CurrentClockHz",4000000); //4MHz as default value
 
-        lowText.setText(Helper.getTout(maxReload,myClock,1,256));
-        editText3.setText( Helper.getTout(curReload,myClock,1,256));
-        highText.setText(Helper.getTout(minReload,myClock,1,256));
+            lowText.setText(Helper.getTout(maxReload,myClock,1,256));
+            MinTime = Helper.ToutResult;
+            editText3.setText( Helper.getTout(curReload,myClock,1,256));
+            highText.setText(Helper.getTout(minReload,myClock,1,256));
+            MaxTime = Helper.ToutResult;
+        }else{
+            setDefaultValue(message);
+        }
+
 
 
         //Toast.makeText(getApplicationContext(),String.format("%d",myClock),Toast.LENGTH_SHORT).show();

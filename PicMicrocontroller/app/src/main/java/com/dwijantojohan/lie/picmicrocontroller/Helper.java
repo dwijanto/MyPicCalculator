@@ -131,35 +131,38 @@ public class  Helper {
     public static String timeConversion(BigDecimal value) {
         String result = "";
         String timeUnit = "sec";
-        BigDecimal tmp = BigDecimal.valueOf(0);
-        int cp = value.compareTo(BigDecimal.ONE);
+        BigDecimal tmp = value;
+        int cp = tmp.compareTo(BigDecimal.ONE);
 
-        if (cp <= 0) {
-            tmp = value;
-            value = value.multiply(BigDecimal.valueOf(1000));
+        if (cp >= 0) {
+            value = tmp.divide(BigDecimal.valueOf(60));
+            cp=value.compareTo(BigDecimal.ONE);
+            if (cp>=0){
+                timeUnit = "min";
+            }else{
+                value = tmp.multiply(BigDecimal.valueOf(60));
+                timeUnit = "sec";
+            }
+        }else{
+            value = tmp.multiply(BigDecimal.valueOf(1000));
             cp = value.compareTo(BigDecimal.ONE);
-            if (cp <= 0) {
-                tmp = value;
-                value = value.multiply(BigDecimal.valueOf(1000));
+            if (cp >= 0) {
+                timeUnit = "ms";
+            } else {
+                value = tmp.multiply(BigDecimal.valueOf(1000000));
                 cp = value.compareTo(BigDecimal.ONE);
                 if (cp >= 0) {
-                    tmp = value;
                     timeUnit = "us";
                 } else {
-                    timeUnit = "ms";
-                }
-            } else if(cp >0) {
-                tmp = value;
-                value = value.divide(BigDecimal.valueOf(60));
-                cp = value.compareTo(BigDecimal.ONE);
-                if (cp <= 0) {
-                    tmp= value;
-                    timeUnit = "min";
+                    value = tmp.multiply(BigDecimal.ONE.valueOf(1000000000));
+                    cp = value.compareTo(BigDecimal.ONE);
+                    if (cp >= 0) {
+                        timeUnit = "ns";
+                    }
                 }
             }
-
-        };
-        return String.format("%.0000f %s ", tmp, timeUnit);
+        }
+        return String.format("%.01f %s ", value, timeUnit);
     }
 }
 

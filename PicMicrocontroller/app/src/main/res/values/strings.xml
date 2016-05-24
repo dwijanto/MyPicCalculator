@@ -21,6 +21,7 @@
     <string name="chkbox_EnablePrescallerHint">Disabled equal 1:1</string>
     <string name="text_reloadvalue">Reload Value:</string>
     <string name="text_period">Timer Period:</string>
+    <string name="text_clocksource">Clock Source</string>
     <string-array name="frequency">
         <item>MHz</item>
         <item>KHz</item>
@@ -35,5 +36,9 @@
         <item>1:64</item>
         <item>1:128</item>
         <item>1:256</item>
+    </string-array>
+    <string-array name="clocksource">
+        <item>FOSC/4</item>
+        <item>TOCK1</item>
     </string-array>
 </resources>

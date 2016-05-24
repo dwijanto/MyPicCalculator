@@ -1,9 +1,9 @@
 package com.dwijantojohan.lie.picmicrocontroller;
 
 import java.io.IOError;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+//import java.io.IOException;
+//import java.math.BigDecimal;
+//import java.math.RoundingMode;
 
 /**
  * Created by dlie on 5/13/2016.
@@ -138,56 +138,44 @@ public class  Helper {
     resolution integer
     */
 
-    public static String getTout(int preload,int clock,int prescaller,int resolution){
+    public static String getTout(int preload,int clock,int prescaller,int resolution,int clockSource){
         double result=0;
         int delay = resolution - preload;
-        double f = clock/(4*prescaller*delay);
-        BigDecimal fout = BigDecimal.valueOf(f) ; //in HZ
-        BigDecimal tout = BigDecimal.valueOf(1/f); //in sec
-        ToutResult = tout.doubleValue();
+        double f = clock/(clockSource*prescaller*delay);
+        double tout = 1/f;
+        ToutResult  = tout;
 
         return timeConversion(tout);
     }
 
-    public static int getPreload(double period,int clock,int prescaller,int resolution){
+    public static int getPreload(double period,int clock,int prescaller,int resolution,int clockSource){
         int preload;
-        preload = (int)(clock /(4*prescaller*(1/period)));
+        preload = (int)(clock /(clockSource*prescaller*(1/period)));
         return resolution - preload;
     }
 
-    /*
-     value BigDecimal in second
-     */
-
-    public static String timeConversion(BigDecimal value) {
-       // String result = "";
+    public static String timeConversion(double value) {
         String timeUnit = "sec";
-        BigDecimal tmp = value;
-        int cp = tmp.compareTo(BigDecimal.ONE);
-
-        if (cp >= 0) {
-            value = tmp.divide(BigDecimal.valueOf(60));
-            cp=value.compareTo(BigDecimal.ONE);
-            if (cp>=0){
+        double tmp = value;
+        if (tmp >= 1) {
+            value = tmp / 60;
+            if (value >=1 ){
                 timeUnit = "min";
             }else{
-                value = tmp.multiply(BigDecimal.valueOf(60));
-                timeUnit = "sec";
+                value = tmp;
+                timeUnit= "sec";
             }
         }else{
-            value = tmp.multiply(BigDecimal.valueOf(1000));
-            cp = value.compareTo(BigDecimal.ONE);
-            if (cp >= 0) {
+            value = tmp*1000;
+            if (value >1) {
                 timeUnit = "ms";
             } else {
-                value = tmp.multiply(BigDecimal.valueOf(1000000));
-                cp = value.compareTo(BigDecimal.ONE);
-                if (cp >= 0) {
+                value = tmp*1000000;
+                if (value >= 1) {
                     timeUnit = "us";
                 } else {
-                    value = tmp.multiply(BigDecimal.valueOf(1000000000));
-                    cp = value.compareTo(BigDecimal.ONE);
-                    if (cp >= 0) {
+                    value = tmp*1000000000;
+                    if (value >= 1) {
                         timeUnit = "ns";
                     }
                 }
@@ -195,5 +183,6 @@ public class  Helper {
         }
         return String.format("%.01f %s ", value, timeUnit);
     }
+
 }
 

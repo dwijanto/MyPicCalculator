@@ -20,7 +20,8 @@
         </activity>
         <activity android:name=".TimerActivity" />
         <activity android:name=".ClockActivity" />
-        <activity android:name=".Timer0Activity" />
+        <activity android:name=".Timer0Activity"
+            android:screenOrientation="landscape"/>
         <activity android:name=".Timer1Activity" />
         <activity android:name=".Timer2Activity"></activity>
     </application>

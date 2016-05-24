@@ -33,11 +33,31 @@
         android:entries="@array/prescaller8bits"
         />
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/text_clocksource"
+        android:id="@+id/textView10"
+        android:layout_below="@+id/textView6"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner3"
+        android:entries="@array/clocksource"
+        android:layout_marginTop="30dp"
+        android:layout_toEndOf="@+id/textView10" />
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/textView6"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="50dp"
+        android:id="@+id/tableLayout">
 
 
 
@@ -129,7 +149,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textCapCharacters"
-                android:digits="0123456789ABCDEFabcdef"
                 android:id="@+id/editText3"
                 android:layout_column="3" />
 

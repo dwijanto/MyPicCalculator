@@ -142,25 +142,20 @@ public class Timer0Activity extends AppCompatActivity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(!hasFocus){
-                    /*
+
                     String s = editText2.getText().toString();
 
                     if(Helper.validateText(s)){
                         if ((Integer)Helper.result >= 0 && (Integer)Helper.result <=255){
-                            calculateTimer0();
-                            //String res = String.format("%s",Integer.toHexString((Integer)Helper.result)));
                             String HexValue = String.format("%02x",Helper.result);
-                            //Toast.makeText(getApplicationContext(),String.format("0x%s",HexValue),Toast.LENGTH_SHORT).show();
                             editText2.setText(String.format("0x%s",HexValue.toUpperCase()));
                         }else{
-                            setDefaultValue();
-                            //Toast.makeText(getApplicationContext(),"Not a valid value.",Toast.LENGTH_SHORT).show();
+                            setDefaultValue("Invalid value. Provide value within the range.Use Integer or Hex value. Reset to default value.");
                         }
                     }else{
-                       setDefaultValue();
-                    }*/
+                       setDefaultValue("Invalid value. Provide value within the range.Use Integer or Hex value. Reset to default value.");
+                    }
                     calculateTimer0();
-
                 }
             }
         });

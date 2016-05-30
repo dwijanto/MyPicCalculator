@@ -13,9 +13,9 @@ import java.io.IOError;
 public class  Helper {
     public static Object result=null;
     public static double ToutResult;
+
     public static boolean validateText(String str){
         boolean myret = false;
-
         try {
             int length = str.trim().length();
            if (str.trim().toLowerCase().contains("0x")){
@@ -141,7 +141,7 @@ public class  Helper {
     public static String getTout(int preload,int clock,int prescaller,int resolution,int clockSource){
         double result=0;
         int delay = resolution - preload;
-        double f = clock/(clockSource*prescaller*delay);
+        double f = (double) clock/(clockSource*prescaller*delay);
         double tout = 1/f;
         ToutResult  = tout;
 
@@ -149,9 +149,11 @@ public class  Helper {
     }
 
     public static int getPreload(double period,int clock,int prescaller,int resolution,int clockSource){
+        int myret;
         int preload;
-        preload = (int)(clock /(clockSource*prescaller*(1/period)));
-        return resolution - preload;
+        preload = (int)Math.round((clock /(clockSource*prescaller*(1/period))));
+        myret = resolution - preload;
+        return (myret <0)?0:myret;
     }
 
     public static String timeConversion(double value) {
@@ -181,7 +183,7 @@ public class  Helper {
                 }
             }
         }
-        return String.format("%.01f %s ", value, timeUnit);
+        return String.format("%.04f %s ", value, timeUnit);
     }
 
 }

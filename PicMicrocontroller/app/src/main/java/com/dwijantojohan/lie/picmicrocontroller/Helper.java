@@ -149,9 +149,11 @@ public class  Helper {
     }
 
     public static int getPreload(double period,int clock,int prescaller,int resolution,int clockSource){
+        int myret;
         int preload;
         preload = (int)Math.round((clock /(clockSource*prescaller*(1/period))));
-        return resolution - preload;
+        myret = resolution - preload;
+        return (myret <0)?0:myret;
     }
 
     public static String timeConversion(double value) {

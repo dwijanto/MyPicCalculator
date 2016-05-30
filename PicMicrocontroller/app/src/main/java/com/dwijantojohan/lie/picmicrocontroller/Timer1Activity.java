@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class Timer1Activity extends AppCompatActivity {
+
     private Calculator cal;
     private CheckBox checkBox;
     private EditText editText2;
@@ -31,6 +32,10 @@ public class Timer1Activity extends AppCompatActivity {
     private final int MaxPreload = 65536;
     private String TimerErrMsg = "";
     private String PreloadErrMsg= "";
+
+    private CalculatorContextWrapper ccw;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,43 +43,28 @@ public class Timer1Activity extends AppCompatActivity {
         setContentView(R.layout.activity_timer0);
 
         initialized();
+        //listener();
+        ccw = new CalculatorContextWrapper(this);
+        ccw.MaxPreloadValue=65536;
         listener();
 
-        cal = new Calculator(myClock,MaxPreload,editText2,editText3,lowText,highText,this,TimerErrMsg,PreloadErrMsg);
-        cal.calculateTimer(prescallerValue,clockSourceValue);
+        ccw.calculateTimer(prescallerValue,clockSourceValue);
     }
 
     private void initialized(){
         setTitle(R.string.TitleTimer1Activity);
-        checkBox = (CheckBox) findViewById(R.id.checkBox);
-        TextView textView = (TextView) findViewById(R.id.textView9) ;
-
-        textView.setText(Html.fromHtml("&#8804"));
-        textView = (TextView) findViewById(R.id.textView11) ;
-        textView.setText(Html.fromHtml("&#8804"));
-        textView = (TextView) findViewById(R.id.textView16) ;
-        textView.setText(Html.fromHtml("&#8804"));
-        textView = (TextView) findViewById(R.id.textView17) ;
-        textView.setText(Html.fromHtml("&#8804"));
-        textView = (TextView) findViewById(R.id.textView12) ;
-        textView.setText("0xFFFF");
-        //Spinner
-        spinner2 = (Spinner) findViewById(R.id.spinner2);
-        spinner2.setEnabled(false);
-        //Spinner
-        spinner3 = (Spinner) findViewById(R.id.spinner3);
-        editText2=(EditText) findViewById(R.id.editText2);
-        editText3=(EditText) findViewById(R.id.editText3);
-        lowText = (TextView) findViewById(R.id.textView15);
-        highText = (TextView) findViewById(R.id.textView18);
-        SharedPreferences sp;
-        sp = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        myClock = sp.getInt("CurrentClockHz",4000000); //4MHz as default value
-        TimerErrMsg =  getResources().getString(R.string.InvalidTimeValue);//getResources().getString(R.string.InvalidTimeValue);
-        PreloadErrMsg =  getResources().getString(R.string.InvalidPreloadValue);
-
     }
+
     private void listener(){
+
+        ccw.editText2.setOnFocusChangeListener(ccw);
+        ccw.editText3.setOnFocusChangeListener(ccw);
+        ccw.checkBox.setOnCheckedChangeListener(ccw);
+        ccw.spinner2.setOnItemSelectedListener(ccw);
+        ccw.spinner3.setOnItemSelectedListener(ccw);
+    }
+
+    /*private void listener(){
         //final Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
         spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -111,6 +101,7 @@ public class Timer1Activity extends AppCompatActivity {
 
             }
         });
+
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -127,61 +118,13 @@ public class Timer1Activity extends AppCompatActivity {
             }
         });
 
-        //final EditText editText2=(EditText) findViewById(R.id.editText2);
-        editText2.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(s.length()!=0){
-                    if(Helper.validateText(s.toString())){
-                        //Toast.makeText(getApplicationContext(),String.format("%d",Helper.result),Toast.LENGTH_SHORT).show();
-                    }
-                }else{
-                    //Handle Null Value
-                }
-            }
-        });
-        editText2.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-
-                    String s = editText2.getText().toString();
-
-                    if(Helper.validateText(s)){
-                        if ((Integer)Helper.result >= 0 && (Integer)Helper.result < MaxPreload){
-                            String HexValue = String.format("%02x",Helper.result);
-                            editText2.setText(String.format("0x%s",HexValue.toUpperCase()));
-                            cal.calculateTimer(prescallerValue,clockSourceValue);
-                        }else{
-                            cal.setDefaultValue("Invalid value. Provide value within the range.Use Integer or Hex value. Reset to default value.");
-                        }
-                    }else{
-                        cal.setDefaultValue("Invalid value. Provide value within the range.Use Integer or Hex value. Reset to default value.");
-                    }
-                }
-            }
-        });
-
-        editText3.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus){
-                    cal.calculatePreload(prescallerValue,clockSourceValue);
-                }
-            }
-        });
 
 
 
-    }
+
+
+
+
+
+    }*/
 }

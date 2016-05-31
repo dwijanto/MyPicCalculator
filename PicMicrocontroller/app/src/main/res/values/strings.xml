@@ -24,6 +24,7 @@
     <string name="text_clocksource">Clock Source</string>
     <string name="InvalidPreloadValue">"Invalid value. Provide value within the range.Use Integer or Hex value. Reset to default value."</string>
     <string name="InvalidTimeValue"> "Invalid value. Provide value within the range. Use s,ms,us or ns.Reset to default value."</string>
+    <string name="clockcurrentvalueis">"Clock Current value is :"</string>
     <string-array name="frequency">
         <item>MHz</item>
         <item>KHz</item>

@@ -22,8 +22,10 @@
         <activity android:name=".ClockActivity" />
         <activity android:name=".Timer0Activity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".Timer1Activity" />
-        <activity android:name=".Timer2Activity"></activity>
+        <activity android:name=".Timer1Activity"
+            android:screenOrientation="landscape"/>
+        <activity android:name=".Timer2Activity"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

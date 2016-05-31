@@ -30,7 +30,6 @@
         android:id="@+id/spinner2"
         android:layout_alignBottom="@+id/textView6"
         android:layout_toEndOf="@+id/checkBox"
-        android:entries="@array/prescaller8bits"
         />
 
 

@@ -39,6 +39,11 @@
         <item>1:128</item>
         <item>1:256</item>
     </string-array>
+    <string-array name="prescallertimer1">
+        <item>1:2</item>
+        <item>1:4</item>
+        <item>1:8</item>
+    </string-array>
     <string-array name="clocksource">
         <item>FOSC/4</item>
         <item>TOCK1</item>

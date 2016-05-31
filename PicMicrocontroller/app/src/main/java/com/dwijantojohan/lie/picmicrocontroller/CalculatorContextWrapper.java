@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.text.Html;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -29,7 +30,6 @@ public class CalculatorContextWrapper extends ContextWrapper implements View.OnF
     public Spinner spinner2;
     public Spinner spinner3;
     private int myClock;
-    //private final int MaxPreload = 65536;
     private String TimerErrMsg = "";
     private String PreloadErrMsg= "";
 
@@ -40,12 +40,14 @@ public class CalculatorContextWrapper extends ContextWrapper implements View.OnF
     public int MaxPreloadValue;
     private String SMinTime;
     private String SMaxTime;
+    private String[] spinnerList;
 
-    public CalculatorContextWrapper(Context base) {
+
+    public CalculatorContextWrapper(Context base,int MaxPreloadValue) {
         super(base);
+        this.MaxPreloadValue = MaxPreloadValue;
         act = ((Activity) this.getBaseContext());
         initialized();
-
     }
 
     private void initialized(){
@@ -61,59 +63,33 @@ public class CalculatorContextWrapper extends ContextWrapper implements View.OnF
         textView.setText(Html.fromHtml("&#8804"));
         textView = (TextView) act.findViewById(R.id.textView12) ;
         textView.setText("0xFFFF");
-        //Spinner
+
         spinner2 = (Spinner) act.findViewById(R.id.spinner2);
         spinner2.setEnabled(false);
-        //Spinner
+
+        switch(MaxPreloadValue) {
+            case 65536: //Timer1
+                spinnerList = act.getResources().getStringArray(R.array.prescallertimer1);
+                break;
+            case 256:  //Timer0 and 2
+                spinnerList = act.getResources().getStringArray(R.array.prescaller8bits);
+                break;
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,spinnerList);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner2.setAdapter(spinnerAdapter);
+
         spinner3 = (Spinner) act.findViewById(R.id.spinner3);
         editText2=(EditText) act.findViewById(R.id.editText2);
         editText3=(EditText) act.findViewById(R.id.editText3);
         lowText = (TextView) act.findViewById(R.id.textView15);
         highText = (TextView) act.findViewById(R.id.textView18);
+
         SharedPreferences sp;
         sp = act.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         myClock = sp.getInt("CurrentClockHz",4000000); //4MHz as default value
         TimerErrMsg = act.getResources().getString(R.string.InvalidTimeValue);
         PreloadErrMsg =  act.getResources().getString(R.string.InvalidPreloadValue);
-
-    }
-
-    public void setText(){
-        EditText textView = (EditText) ((Activity) this.getBaseContext()).findViewById(R.id.editText2);
-
-       // AppCompatActivity act = (AppCompatActivity) this.getBaseContext();
-        //TextView textView = (TextView) this.getApplicationContext().findViewById(R.id.textView2);
-       // View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.activity_timer0,null);
-       // TextView textView = (TextView) v.findViewById(R.id.textView2);
-        textView.setText("0x02");
-    }
-
-
-    @Override
-    public void onFocusChange(View v,boolean hasFocus){
-
-        if(!hasFocus){
-            switch (v.getId()){
-                case R.id.editText2:
-                    String s = editText2.getText().toString();
-                    if(Helper.validateText(s)){
-                        if ((Integer)Helper.result >= 0 && (Integer)Helper.result < MaxPreloadValue){
-                            String HexValue = String.format("%02x",Helper.result);
-                            editText2.setText(String.format("0x%s",HexValue.toUpperCase()));
-                            calculateTimer(prescallerValue,clockSourceValue);
-                        }else{
-                            setDefaultValue(PreloadErrMsg);
-                        }
-                    }else{
-                        setDefaultValue(PreloadErrMsg);
-                    }
-                    break;
-                case R.id.editText3:
-                    calculatePreload(prescallerValue,clockSourceValue);
-                    break;
-            }
-
-        }
 
     }
 
@@ -163,6 +139,34 @@ public class CalculatorContextWrapper extends ContextWrapper implements View.OnF
         editText2.setText("0x00");
         calculateTimer(prescallerValue,clockSourceValue);
     }
+
+
+    /** Listener **/
+    @Override
+    public void onFocusChange(View v,boolean hasFocus){
+        if(!hasFocus){
+            switch (v.getId()){
+                case R.id.editText2:
+                    String s = editText2.getText().toString();
+                    if(Helper.validateText(s)){
+                        if ((Integer)Helper.result >= 0 && (Integer)Helper.result < MaxPreloadValue){
+                            String HexValue = String.format("%02x",Helper.result);
+                            editText2.setText(String.format("0x%s",HexValue.toUpperCase()));
+                            calculateTimer(prescallerValue,clockSourceValue);
+                        }else{
+                            setDefaultValue(PreloadErrMsg);
+                        }
+                    }else{
+                        setDefaultValue(PreloadErrMsg);
+                    }
+                    break;
+                case R.id.editText3:
+                    calculatePreload(prescallerValue,clockSourceValue);
+                    break;
+            }
+        }
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
         switch (parent.getId()){
@@ -172,7 +176,6 @@ public class CalculatorContextWrapper extends ContextWrapper implements View.OnF
                     pos=position+1;
                 }
                 prescallerValue = (int) Math.pow(2,pos);
-                //calculateTimer(prescallerValue,clockSourceValue);
                 break;
             case R.id.spinner3:
                 switch (position){
@@ -182,20 +185,15 @@ public class CalculatorContextWrapper extends ContextWrapper implements View.OnF
                     case 1:
                         clockSourceValue = 1;
                 }
-                //calculateTimer(prescallerValue,clockSourceValue);
                 break;
-
-
         }
         calculateTimer(prescallerValue,clockSourceValue);
     }
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+    public void onNothingSelected(AdapterView<?> parent) {}
 
-    }
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        //Spinner spinner = (Spinner) findViewById(R.id.spinner2);
         spinner2.setEnabled(isChecked);
         spinner2.setSelection(0);
         prescallerValue=1;

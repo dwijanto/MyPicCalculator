@@ -19,7 +19,7 @@ import android.widget.Toast;
 /**
  * Created by dlie on 5/27/2016.
  */
-public class CalculatorContextWrapper extends ContextWrapper implements View.OnFocusChangeListener,AdapterView.OnItemSelectedListener,CompoundButton.OnCheckedChangeListener {
+public class CalculatorContextWrapper extends ContextWrapper implements View.OnFocusChangeListener,AdapterView.OnItemSelectedListener,CompoundButton.OnCheckedChangeListener,ActivityConstant {
 
     Activity act;
     public CheckBox checkBox;
@@ -41,11 +41,15 @@ public class CalculatorContextWrapper extends ContextWrapper implements View.OnF
     private String SMinTime;
     private String SMaxTime;
     private String[] spinnerList;
+    private int callerActivity;
+
+    SharedPreferences sp;
 
 
-    public CalculatorContextWrapper(Context base,int MaxPreloadValue) {
+    public CalculatorContextWrapper(Context base,int MaxPreloadValue,int callerActivity) {
         super(base);
         this.MaxPreloadValue = MaxPreloadValue;
+        this.callerActivity = callerActivity;
         act = ((Activity) this.getBaseContext());
         initialized();
     }
@@ -66,12 +70,20 @@ public class CalculatorContextWrapper extends ContextWrapper implements View.OnF
 
         spinner2 = (Spinner) act.findViewById(R.id.spinner2);
         spinner2.setEnabled(false);
-
+/*
         switch(MaxPreloadValue) {
             case 65536: //Timer1
                 spinnerList = act.getResources().getStringArray(R.array.prescallertimer1);
                 break;
             case 256:  //Timer0 and 2
+                spinnerList = act.getResources().getStringArray(R.array.prescaller8bits);
+                break;
+        }*/
+        switch (callerActivity){
+            case ActivityConstant.TIMER1:
+                spinnerList = act.getResources().getStringArray(R.array.prescallertimer1);
+                break;
+            default: //Timer0 and Timer2
                 spinnerList = act.getResources().getStringArray(R.array.prescaller8bits);
                 break;
         }
@@ -85,7 +97,7 @@ public class CalculatorContextWrapper extends ContextWrapper implements View.OnF
         lowText = (TextView) act.findViewById(R.id.textView15);
         highText = (TextView) act.findViewById(R.id.textView18);
 
-        SharedPreferences sp;
+        //SharedPreferences sp;
         sp = act.getSharedPreferences("MyPref", Context.MODE_PRIVATE);
         myClock = sp.getInt("CurrentClockHz",4000000); //4MHz as default value
         TimerErrMsg = act.getResources().getString(R.string.InvalidTimeValue);
@@ -104,6 +116,9 @@ public class CalculatorContextWrapper extends ContextWrapper implements View.OnF
             if(MinTime <= (Double)Helper.result && MaxTime >= (Double) Helper.result){
                 double p = (Double) Helper.result;
                 preload = Helper.getPreload(p,myClock,prescallerValue,MaxPreloadValue,clockSourceValue);
+                //save value to SharedPreferences
+                saveSharedPreference(preload);
+
                 String HexValue = String.format("%02x",preload);
                 editText2.setText(String.format("0x%s",HexValue.toUpperCase()));
             }else{
@@ -121,6 +136,7 @@ public class CalculatorContextWrapper extends ContextWrapper implements View.OnF
         String value = editText2.getText().toString();
         if(Helper.validateText(value)){
             curReload = (int) Helper.result;
+            saveSharedPreference(curReload);
             SMinTime = Helper.getTout(maxReload,myClock,prescallerValue,MaxPreloadValue,clockSourceValue);
             lowText.setText(SMinTime);
             MinTime = Helper.ToutResult;
@@ -140,6 +156,11 @@ public class CalculatorContextWrapper extends ContextWrapper implements View.OnF
         calculateTimer(prescallerValue,clockSourceValue);
     }
 
+    public void saveSharedPreference(int preload) {
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(String.format("PreloadTimer%d",callerActivity),preload);
+        editor.commit();
+    }
 
     /** Listener **/
     @Override

@@ -3,10 +3,12 @@ package com.dwijantojohan.lie.picmicrocontroller;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class Timer2Activity extends AppCompatActivity {
+public class Timer2Activity extends AppCompatActivity implements ActivityConstant {
     private final int prescallerValue = 1;
     private final int clockSourceValue = 4;
     private final int MaxPreload = 256;
+
+    private final int callingActivity = ActivityConstant.TIMER2;
 
     private CalculatorContextWrapper ccw;
     @Override
@@ -20,7 +22,7 @@ public class Timer2Activity extends AppCompatActivity {
 
     private void initialized(){
         setTitle(R.string.TitleTimer2Activity);
-        ccw = new CalculatorContextWrapper(this,MaxPreload);
+        ccw = new CalculatorContextWrapper(this,MaxPreload,callingActivity);
         listener();
         ccw.calculateTimer(prescallerValue,clockSourceValue);
     }

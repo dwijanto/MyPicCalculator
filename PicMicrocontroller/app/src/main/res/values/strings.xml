@@ -28,6 +28,8 @@
     <string name="clockcurrentvalueis">"Clock Current value is :"</string>
     <string name="action_code">"Code"</string>
     <string name="action_settings">"Settings"</string>
+    <string name="action_codeshare">"Share"</string>
+    <string name="action_codemail">"Mail"</string>
     <string-array name="frequency">
         <item>MHz</item>
         <item>KHz</item>

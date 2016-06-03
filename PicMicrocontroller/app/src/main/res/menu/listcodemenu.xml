@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:myapp="http://schemas.android.com/apk/res-auto">
+    <item
+        android:title="@string/action_codeshare"
+        android:id="@+id/action_codeshare"
+        android:icon="@mipmap/ic_share"
+        myapp:showAsAction="ifRoom"
+        myapp:actionProviderClass="android.support.V7.widget.ShareActionProvider"
+        />
+    <item android:id="@+id/action_codemail"
+        android:title="@string/action_codemail"
+        android:icon="@mipmap/ic_mail"
+        myapp:showAsAction="ifRoom"
+        />
+</menu>

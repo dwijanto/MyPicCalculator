@@ -3,6 +3,7 @@ package com.dwijantojohan.lie.picmicrocontroller;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -50,6 +51,7 @@ public class CodeCustomAdapter extends BaseAdapter {
                 Toast.makeText(ctx,String.format("Selected file: %s",cm.getCodeName()),Toast.LENGTH_SHORT).show();
             }
         });
+
         return rowview;
     }
 

@@ -32,7 +32,9 @@ public class ListCodeActivity extends AppCompatActivity {
                 break;
         }*/
         GenerateCodeContextWrapper gccw = new GenerateCodeContextWrapper(this);
+
         ListView l = (ListView) findViewById(R.id.listView);
+        l.setAdapter(new CodeCustomAdapter(this,gccw.getModel()));
 
 
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -29,10 +30,10 @@ public class CodeCustomAdapter extends BaseAdapter {
         return data.size();
     }
 
-    public View getView(int position, View view, ViewGroup parent){
+    public View getView(final int position, View view, ViewGroup parent){
         LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowview = inflater.inflate(R.layout.coderowitem,null);
-        CodeModel cm = data.get(position);
+        final CodeModel cm = data.get(position);
 
         TextView textView = (TextView) rowview.findViewById(R.id.CodeRowtextView);
         textView.setText(cm.getCodeName());
@@ -42,7 +43,14 @@ public class CodeCustomAdapter extends BaseAdapter {
         }else{
             img.setImageResource(R.mipmap.ic_h);
         }
-        return view;
+
+        rowview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ctx,String.format("Selected file: %s",cm.getCodeName()),Toast.LENGTH_SHORT).show();
+            }
+        });
+        return rowview;
     }
 
     public long getItemId(int position){

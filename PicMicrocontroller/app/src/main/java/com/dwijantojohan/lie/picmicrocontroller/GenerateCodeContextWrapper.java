@@ -25,6 +25,7 @@ public class GenerateCodeContextWrapper extends ContextWrapper {
     public List<CodeModel> getModel(){
         return cm;
     }
+
     public  GenerateCodeContextWrapper(Context base){
         super(base);
         act = (Activity) this.getBaseContext();
@@ -64,15 +65,15 @@ public class GenerateCodeContextWrapper extends ContextWrapper {
             //Create Files Headers and Implements in temp folder
 
             //Iterate base on filename in temp folder
-            CodeModel m = new CodeModel("Project","h");
+            CodeModel m = new CodeModel("Project.h","h");
             cm.add(m);
-            m = new CodeModel("Project","c");
+            m = new CodeModel("Project.c","c");
             cm.add(m);
-            m = new CodeModel("Timer","h");
+            m = new CodeModel("Timer.h","h");
             cm.add(m);
-            m = new CodeModel("Timer","c");
+            m = new CodeModel("Timer.c","c");
             cm.add(m);
-            m = new CodeModel("Main","c");
+            m = new CodeModel("Main.c","c");
             cm.add(m);
             //end iteration
 

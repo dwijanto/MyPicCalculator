@@ -1,10 +1,13 @@
 package com.dwijantojohan.lie.picmicrocontroller;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Objects;
 import java.util.Timer;
 
 /**
@@ -21,13 +24,15 @@ public class Calculator extends AppCompatActivity {
     private int clockSourceValue=4;
     private int myClock;
     private AppCompatActivity me;
+    private String parent;
     private int MaxPreloadValue;
     private String TimerErrMsg;
     private String PreloadErrMsg;
     private String SMinTime;
     private String SMaxTime;
-
-
+    private Object Timer;
+    private Context context;
+    private AppCompatActivity appCompatActivity;
 
     public Calculator(int myClock, int MaxPreloadValue,EditText editText2,EditText editText3,TextView lowText,TextView highText,AppCompatActivity me,String TimerErrMsg,String PreloadErrMsg){
         this.MaxPreloadValue = MaxPreloadValue;
@@ -41,6 +46,13 @@ public class Calculator extends AppCompatActivity {
         this.PreloadErrMsg = PreloadErrMsg;
 
     }
+    public Calculator(Context context,AppCompatActivity appCompatActivity){
+        this.context = context;
+        this.appCompatActivity = appCompatActivity;
+
+
+    }
+
     public void calculatePreload(int prescallerValue,int clockSourceValue){
         this.prescallerValue = prescallerValue;
         this.clockSourceValue = clockSourceValue;
@@ -80,12 +92,20 @@ public class Calculator extends AppCompatActivity {
         }else{
             setDefaultValue((String)PreloadErrMsg);
         }
-
     }
+
     public void setDefaultValue(String message){
         Toast.makeText(me.getApplicationContext(),String.format("%s",message),Toast.LENGTH_LONG).show();
         editText2.setText("0x00");
         calculateTimer(prescallerValue,clockSourceValue);
+    }
 
+    public void setText(){
+        //TextView textView = (TextView) ((Activity) this.getBaseContext()).findViewById(R.id.textView2);
+        //AppCompatActivity act = (AppCompatActivity) getBaseContext();
+        TextView textView = (TextView) appCompatActivity.findViewById(R.id.textView2);
+        // View v = LayoutInflater.from(getBaseContext()).inflate(R.layout.activity_timer0,null);
+        // TextView textView = (TextView) v.findViewById(R.id.textView2);
+        textView.setText("HI");
     }
 }

@@ -4,13 +4,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 
-public class Timer1Activity extends AppCompatActivity {
+public class Timer1Activity extends AppCompatActivity implements ActivityConstant {
 
 
     private final int prescallerValue = 1;
     private final int clockSourceValue = 4;
     private final int MaxPreload = 65536;
-
+    private final int callingActivity = ActivityConstant.TIMER1;
     private CalculatorContextWrapper ccw;
 
 
@@ -25,7 +25,7 @@ public class Timer1Activity extends AppCompatActivity {
 
     private void initialized(){
         setTitle(R.string.TitleTimer1Activity);
-        ccw = new CalculatorContextWrapper(this,MaxPreload);
+        ccw = new CalculatorContextWrapper(this,MaxPreload,callingActivity);
         listener();
         ccw.calculateTimer(prescallerValue,clockSourceValue);
     }

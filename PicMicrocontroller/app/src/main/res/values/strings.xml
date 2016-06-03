@@ -6,6 +6,7 @@
     <string name="TitleTimer0Activity">Timer0</string>
     <string name="TitleTimer1Activity">Timer1</string>
     <string name="TitleTimer2Activity">Timer2</string>
+    <string name="TitleListCodeActivity">List Code</string>
     <string name="btn_Clock">Clock</string>
     <string name="btn_Timer0">Timer 0</string>
     <string name="btn_Timer1">Timer 1</string>
@@ -25,6 +26,8 @@
     <string name="InvalidPreloadValue">"Invalid value. Provide value within the range.Use Integer or Hex value. Reset to default value."</string>
     <string name="InvalidTimeValue"> "Invalid value. Provide value within the range. Use s,ms,us or ns.Reset to default value."</string>
     <string name="clockcurrentvalueis">"Clock Current value is :"</string>
+    <string name="action_code">"Code"</string>
+    <string name="action_settings">"Settings"</string>
     <string-array name="frequency">
         <item>MHz</item>
         <item>KHz</item>

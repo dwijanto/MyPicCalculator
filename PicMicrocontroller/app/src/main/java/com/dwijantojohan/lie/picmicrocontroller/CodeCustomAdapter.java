@@ -70,11 +70,14 @@ public class CodeCustomAdapter extends BaseAdapter {
 
 
                 File file = ctx.getDir("TimerTmp",Context.MODE_PRIVATE);
-                File myfile = new File(file,"project.h");
+                //File myfile = new File(file,"project.h");
+                File myfile = new File(file,cm.getCodeName());
+                StringBuilder builder = new StringBuilder("");
                 try{
-                    BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(file,"project.h")));
+                    //BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(file,"project.h")));
+                    BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(file,cm.getCodeName())));
                     String read;
-                    StringBuilder builder = new StringBuilder("");
+//                    StringBuilder builder = new StringBuilder("");
 
                     while((read = bufferedReader.readLine()) != null){
                         builder.append(read);
@@ -85,10 +88,13 @@ public class CodeCustomAdapter extends BaseAdapter {
                     e.printStackTrace();
                 }
 
-                Intent i = new Intent(Intent.ACTION_VIEW);
+                //Intent i = new Intent(Intent.ACTION_VIEW);
+                //i.setDataAndType(Uri.fromFile(myfile),"text/plain");
 
-                i.setDataAndType(Uri.fromFile(myfile),"Text/text");
-                ctx.startActivity(i);
+
+                Intent intent = new Intent(ctx.getApplicationContext(),FileViewerActivity.class);
+                intent.putExtra("showContent",builder.toString());
+                ctx.startActivity(intent);
 
             }
         });

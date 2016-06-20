@@ -88,7 +88,7 @@ public class GenerateCodeContextWrapper extends ContextWrapper {
         if (!file.exists()){
             file.mkdir();
         }
-        File myfile = new File(file,"project.h");
+        File myfile = new File(file,"Project.h");
 
         //Create Files Headers and Implements in temp folder
         try
@@ -100,6 +100,25 @@ public class GenerateCodeContextWrapper extends ContextWrapper {
             writer.append("Second Line for this is project.h");
             writer.append("\n");
             writer.append("Third Line for this is project.h");
+            writer.append("\n");
+            writer.flush();
+            writer.close();
+        }catch (Exception e){
+
+        }
+
+        myfile = new File(file,"Project.c");
+
+        //Create Files Headers and Implements in temp folder
+        try
+        {
+            FileWriter writer = new FileWriter(myfile);
+            String filename ="Project.c";
+            writer.append("this is project.c");
+            writer.append("\n");
+            writer.append("Second Line for this is project.c");
+            writer.append("\n");
+            writer.append("Third Line for this is project.c");
             writer.append("\n");
             writer.flush();
             writer.close();

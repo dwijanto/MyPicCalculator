@@ -5,9 +5,12 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.ShareActionProvider;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -15,6 +18,7 @@ public class ListCodeActivity extends AppCompatActivity implements ShareActionPr
     public int callerActivity;
     private ShareActionProvider share=null;
     private Intent shareIntent = new Intent(Intent.ACTION_SEND);
+    private ListView l;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +67,8 @@ public class ListCodeActivity extends AppCompatActivity implements ShareActionPr
         setTitle(R.string.TitleListCodeActivity);
         callerActivity = getIntent().getIntExtra("calling_activity",0);
         GenerateCodeContextWrapper gccw = new GenerateCodeContextWrapper(this);
-        ListView l = (ListView) findViewById(R.id.listView);
+        l = (ListView) findViewById(R.id.listView);
         l.setAdapter(new CodeCustomAdapter(this,gccw.getModel()));
-
 
 
     }

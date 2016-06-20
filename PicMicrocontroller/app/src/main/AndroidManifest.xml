@@ -29,8 +29,15 @@
         <activity
             android:name=".Timer2Activity"
             android:screenOrientation="landscape" />
-        <activity android:name=".GeneratorActivity" />
-        <activity android:name=".ListCodeActivity"></activity>
+        <activity android:name=".GeneratorActivity"></activity>
+        <activity android:name=".ListCodeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".FileViewerActivity"></activity>
     </application>
 
 </manifest>

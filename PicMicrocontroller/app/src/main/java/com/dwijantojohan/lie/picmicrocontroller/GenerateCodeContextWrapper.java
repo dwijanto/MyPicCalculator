@@ -96,11 +96,12 @@ public class GenerateCodeContextWrapper extends ContextWrapper {
             FileWriter writer = new FileWriter(myfile);
             String filename ="Project.h";
             writer.append("this is project.h");
-            writer.append("\n");
-            writer.append("Second Line for this is project.h");
-            writer.append("\n");
+            writer.append(" \n");
+            writer.append("Second Line for this is project.h ");
+            //writer.append(System.getProperty("line.separator"));
+            writer.append(" \n");
             writer.append("Third Line for this is project.h");
-            writer.append("\n");
+            writer.append(" \n");
             writer.flush();
             writer.close();
         }catch (Exception e){
@@ -115,11 +116,11 @@ public class GenerateCodeContextWrapper extends ContextWrapper {
             FileWriter writer = new FileWriter(myfile);
             String filename ="Project.c";
             writer.append("this is project.c");
-            writer.append("\n");
+            writer.append(" \n");
             writer.append("Second Line for this is project.c");
-            writer.append("\n");
+            writer.append(" \n");
             writer.append("Third Line for this is project.c");
-            writer.append("\n");
+            writer.append(" \n");
             writer.flush();
             writer.close();
         }catch (Exception e){
